@@ -172,7 +172,7 @@ def CIGAR_to_Genomic_Positions(cigar_types,cigar_vals,pos):
         elif cigar_types[i] == 'D':
             curr_pos = int(curr_pos) + int(cigar_vals[i])
         elif cigar_types[i] == 'M':
-            genomic_positions = genomic_positions + range(int(curr_pos),int(curr_pos)+int(cigar_vals[i]))
+            genomic_positions = genomic_positions + list(range(int(curr_pos),int(curr_pos)+int(cigar_vals[i])))
             curr_pos = int(curr_pos) + int(cigar_vals[i])
     return genomic_positions
 
@@ -190,9 +190,9 @@ file_check[-1] = file_check[-1].lower()
 if file_check[-1] == 'bam' or args.bam is True:
     wasbam = True
     sam_file = args.reads + '.sam'
-    print 'Converting BAM to SAM ... ',
+    print('Converting BAM to SAM ... ', end=' ')
     os.system('samtools view ' + args.reads + ' > ' + sam_file)
-    print 'Done'
+    print('Done')
 
 elif file_check[-1] == 'sam' or args.bam is False:
     sam_file = args.reads
@@ -484,10 +484,10 @@ elif args.mode == 'single':
 
                 for i in snp_pos:
 
-                        #RYO: START EDIT - Implemented Filter
-                        posVal = str(line_t[2]) + '|' + str(i)
-                        if posVal not in snps: continue
-                        #RYO: END EDIT - Implmented Filter
+                    #RYO: START EDIT - Implemented Filter
+                    posVal = str(line_t[2]) + '|' + str(i)
+                    if posVal not in snps: continue
+                    #RYO: END EDIT - Implmented Filter
 
                     snp = str(line_t[2]) + '|' + str(i) + '\t' + str(snp_pos[i]) + '\t' + orientation
                     if str(line_t[0]) in potsnp_dict:
@@ -503,7 +503,7 @@ elif args.mode == 'single':
     neg_counts = {}
 
     #Go through the potential SNP dictionary and choose one SNP at random for those overlapping multiple SNPs
-    keys = potsnp_dict.keys()
+    keys = list(potsnp_dict.keys())
     for key in keys:
         snp = random.choice(potsnp_dict[key]).split('\t')
 
@@ -563,7 +563,7 @@ elif args.mode == 'single':
     out_counts.write('CHR\tPOSITION\tPOS_A|C|G|T\tNEG_A|C|G|T\tSUM_POS_READS\tSUM_NEG_READS\tSUM_READS\n')
 
     #Sort SNP positions and write them
-    keys = pos_counts.keys()
+    keys = list(pos_counts.keys())
     keys.sort()
 
     for key in keys:
