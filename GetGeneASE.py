@@ -358,8 +358,8 @@ for line in gff_file:
 				if name not in alt_biased:
 					alt_biased[name] = 0
 
-				tot_ref = ref_pos_counts + ref_neg_counts
-				tot_alt = alt_pos_counts + alt_neg_counts
+				tot_ref = int(ref_pos_counts) + int(ref_neg_counts)
+				tot_alt = int(alt_pos_counts) + int(alt_neg_counts)
 				if tot_ref + tot_alt >= args.min:
 					if tot_ref > tot_alt:
 						if name in ref_biased:
